@@ -1,0 +1,6 @@
+streamlit==1.36.0
+googletrans==4.0.0-rc1
+streamlit_option_menu==0.3.13
+pandas==2.2.2
+tensorflow==2.15.1 
+numpy
