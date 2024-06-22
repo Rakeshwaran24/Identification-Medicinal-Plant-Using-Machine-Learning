@@ -1,16 +1,48 @@
+# -*- coding: utf-8 -*-
 import streamlit as st
 import numpy as np
 from PIL import Image
-from tensorflow.keras.models import load_model
 import base64
-import streamlit as st
-from streamlit_option_menu import option_menu
 import pandas as pd
 from googletrans import Translator
+from streamlit_option_menu import option_menu
+from tensorflow.keras.models import load_model
+from tensorflow.keras.layers import BatchNormalization
 
+# Custom deserialization function for BatchNormalization
+def custom_batchnorm_layer(config):
+    if 'axis' in config:
+        config['axis'] = config['axis'][0] if isinstance(config['axis'], list) else config['axis']
+    return BatchNormalization(**config)
 
-model = load_model("C:\\Users\\HP\\OneDrive\\Documents\\Medicinal-Leaf-Classification-main\\artifacts\\updatednewmodel.h5")
-class_dict = np.load("C:\\Users\\HP\\OneDrive\\Documents\\Medicinal-Leaf-Classification-main\\artifacts\\updatedclassnames.npy")
+# Custom objects dictionary to handle the custom deserialization function
+custom_objects = {
+    'BatchNormalization': custom_batchnorm_layer,
+}
+
+# File path to your saved Keras model
+model_path = "C:\\Users\\HP\\OneDrive\\Documents\\Medicinal-Leaf-Classification-main\\artifacts\\updatednewmodel.h5"
+
+# Load the Keras model with custom objects
+try:
+    model = load_model(model_path, custom_objects=custom_objects)
+    st.write("Keras model loaded successfully.")
+except OSError as e:
+    st.write(f"Error loading Keras model: {e}")
+except Exception as e:
+    st.write(f"Unexpected error loading Keras model: {e}")
+
+# File path to your NumPy array
+class_dict_path = "C:\\Users\\HP\\OneDrive\\Documents\\Medicinal-Leaf-Classification-main\\artifacts\\updatedclassnames.npy"
+
+# Load the NumPy array
+try:
+    class_dict = np.load(class_dict_path, allow_pickle=True).item()
+    st.write("NumPy array loaded successfully.")
+except FileNotFoundError:
+    st.write(f"Error: File '{class_dict_path}' not found.")
+except Exception as e:
+    st.write(f"Error loading NumPy array: {e}")
 
 #model = load_model("C:\\Medicinal-Leaf-Classification-main\\Notebooks\\Resnetmodel.h5")
 #class_dict = np.load("C:\\Medicinal-Leaf-Classification-main\\Notebooks\\newclass_names.npy", allow_pickle=True)
