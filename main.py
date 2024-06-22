@@ -4,7 +4,6 @@ import numpy as np
 from PIL import Image
 import base64
 import pandas as pd
-from googletrans import Translator
 from streamlit_option_menu import option_menu
 from tensorflow.keras.models import load_model
 from tensorflow.keras.layers import BatchNormalization
