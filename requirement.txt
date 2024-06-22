@@ -2,5 +2,10 @@ streamlit==1.36.0
 googletrans==4.0.0-rc1
 streamlit_option_menu==0.3.13
 pandas==2.2.2
-tensorflow 
+tensorflow==2.7.0
 numpy
+tensorflow
+streamlit
+numpy
+pillow
+streamlit-option-menu
